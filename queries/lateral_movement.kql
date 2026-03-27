@@ -1,0 +1,6 @@
+SecurityEvent
+| where EventID == 4624
+| where LogonType == 3
+| summarize ConnectionCount = count() by Account, Computer, IpAddress
+| where ConnectionCount > 15
+| order by ConnectionCount desc
