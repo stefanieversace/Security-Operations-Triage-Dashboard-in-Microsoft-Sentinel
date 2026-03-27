@@ -1,93 +1,92 @@
-Security Operations Triage Dashboard
-Overview
+🧠 Security Operations Triage Dashboard
+✨ Overview
 
 This project simulates a real-world Security Operations Centre (SOC) triage workflow using Microsoft Sentinel and KQL.
 
 It demonstrates how security analysts detect, prioritise, and investigate suspicious activity across multiple data sources in an operational environment.
 
-The project focuses on:
-
-Detecting suspicious authentication behaviour
-Identifying brute force activity
-Monitoring privileged account usage
-Correlating threat intelligence indicators
-Investigating potential lateral movement
-Scenario
+🔍 Focus Areas
+🚨 Detecting suspicious authentication behaviour
+🔐 Identifying brute force activity
+👑 Monitoring privileged account usage
+🌐 Correlating threat intelligence indicators
+🔄 Investigating potential lateral movement
+🎭 Scenario
 
 An organisation begins experiencing unusual authentication activity across its environment.
 
-Observed indicators include:
-
+⚠️ Indicators observed:
 Multiple failed login attempts across several accounts
 Successful logins from previously unseen IP addresses
 Privileged account activity following authentication anomalies
 Increased internal system-to-system connections
 Matches with known malicious IP addresses
 
-This project simulates how a SOC analyst would triage and investigate this activity from initial detection through to response.
+💡 This project simulates how a SOC analyst would triage and investigate this activity from initial detection through to response.
 
-Data Sources
-SecurityEvent (Windows Security Logs)
-SigninLogs (Azure AD authentication logs)
-ThreatIntelligenceIndicator
-Syslog (optional)
-Detection Strategy
+📊 Data Sources
+🪟 SecurityEvent (Windows Security Logs)
+☁️ SigninLogs (Azure AD authentication logs)
+🧠 ThreatIntelligenceIndicator
+🖥️ Syslog (optional)
+🧩 Detection Strategy
 
-The detection approach is behaviour-based rather than signature-based.
+This project uses a behaviour-based detection approach rather than relying only on known signatures.
 
-Instead of relying solely on known indicators, the queries focus on identifying anomalies such as:
-
+🧠 Key detection logic:
 Spikes in failed authentication attempts
 Unusual login frequency or patterns
 Abnormal privileged account activity
 Suspicious internal network behaviour
 Matches with external threat intelligence
 
-This reflects how modern SOC teams detect threats that bypass traditional controls.
+✨ This reflects how modern SOC teams detect threats that bypass traditional controls.
 
-MITRE ATT&CK Mapping
+🗺️ MITRE ATT&CK Mapping
 
-This project maps detection logic to the MITRE ATT&CK framework to align technical activity with known adversary behaviours.
+This project aligns detection logic with real-world adversary behaviour using the MITRE ATT&CK framework.
 
-Brute Force Detection → Credential Access → T1110 (Brute Force)
-Suspicious Successful Logons → Initial Access / Persistence → T1078 (Valid Accounts)
-Privileged Account Activity → Privilege Escalation → T1078 (Valid Accounts)
-Threat Intelligence IP Match → Command and Control / Initial Access → Technique varies by context
-Lateral Movement → Lateral Movement → T1021 (Remote Services)
-ATT&CK Mapping Notes
+🔗 Mappings
+🚨 Brute Force Detection → Credential Access → T1110 (Brute Force)
+🔓 Suspicious Successful Logons → Initial Access / Persistence → T1078 (Valid Accounts)
+👑 Privileged Account Activity → Privilege Escalation → T1078 (Valid Accounts)
+🌐 Threat Intelligence IP Match → Command & Control / Initial Access → Context-dependent
+🔄 Lateral Movement → Lateral Movement → T1021 (Remote Services)
+📝 Notes
 
-These mappings support analyst reasoning and investigation context. They are not intended to represent definitive attribution, but rather to align detection logic with common adversary techniques observed in real-world environments.
+These mappings support analyst reasoning, not definitive attribution.
+They reflect how detections align with common attacker behaviours.
 
-Detection Queries
+💻 Detection Queries
 
 All detection logic is located in the /queries directory.
 
-Example: Brute Force Detection
+🔎 Example: Brute Force Detection
+SecurityEvent  
+| where EventID == 4625  
+| summarize FailedAttempts = count() by Account, IpAddress, bin(TimeGenerated, 10m)  
+| where FailedAttempts > 10  
+| order by FailedAttempts desc  
+🧠 SOC Triage Workflow
 
-SecurityEvent
-| where EventID == 4625
-| summarize FailedAttempts = count() by Account, IpAddress, bin(TimeGenerated, 10m)
-| where FailedAttempts > 10
-| order by FailedAttempts desc
+This project mirrors how real SOC teams operate:
 
-SOC Triage Workflow
+🚨 Alerts are generated from analytics rules
+🎯 Alerts are prioritised based on severity and context
+🔗 Events are correlated across multiple data sources
+✅ Suspicious behaviour is validated
+📉 Impact is assessed
+🛠️ Response actions are recommended
+⚙️ Detection Rule Creation (Microsoft Sentinel)
 
-This project reflects a realistic SOC triage process:
+The detections in this project are designed to be operationalised as scheduled analytics rules.
 
-Alerts are generated from analytics rules
-Alerts are prioritised based on severity and context
-Events are correlated across multiple data sources
-Suspicious behaviour is validated
-Impact is assessed
-Response actions are recommended
-Detection Rule Creation in Microsoft Sentinel
+🪜 Steps
 
-The detections in this project are designed to be operationalised as scheduled analytics rules in Microsoft Sentinel.
+1. Create Analytics Rule
+Navigate to the Analytics section in Sentinel
 
-Step 1: Create Analytics Rule
-Navigate to the Analytics section in Sentinel and create a new scheduled rule
-
-Step 2: Define Rule Details
+2. Define Rule Details
 
 Name
 Description
@@ -95,88 +94,82 @@ Severity
 MITRE ATT&CK tactic
 
 Example:
-Name: Brute Force Detection – Multiple Failed Logons
+Brute Force Detection – Multiple Failed Logons
 Severity: Medium
 Tactic: Credential Access
 
-Step 3: Add KQL Query
-Insert the detection query into the rule logic
+3. Add KQL Query
+Insert detection logic
 
-Step 4: Configure Scheduling
+4. Configure Scheduling
 
-Run query every: 5 minutes
-Lookback period: 15 minutes
+Run every: 5 minutes
+Lookback: 15 minutes
 
-Step 5: Configure Alert Logic
-Trigger an alert when query results exceed defined thresholds
+5. Configure Alert Logic
+Trigger when thresholds are met
 
-Step 6: Map Entities
+6. Map Entities
 
 Account → User
-IpAddress → IP
-Computer → Host
+IP → IpAddress
+Host → Computer
 
-Step 7: Apply MITRE ATT&CK Mapping
-Tactic: Credential Access
-Technique: T1110 Brute Force
+7. Apply MITRE Mapping
+T1110 (Brute Force)
 
-Step 8: Configure Incident Settings
+8. Configure Incidents
 Enable automatic incident creation
 
-Step 9: Add Automated Response (Optional)
+9. Add Automation (Optional)
 
 Notify analysts
 Tag incidents
-Trigger enrichment workflows
-Dashboard Design (Microsoft Sentinel Workbook)
+Trigger enrichment
+📈 Dashboard Design (Workbook)
 
-The triage dashboard provides a centralised view of security activity.
+The triage dashboard provides a centralised operational view.
 
-Components:
-
-Failed login trends (time series)
+📊 Components
+Failed login trends
 Top attacking IP addresses
 Suspicious successful logins
 Privileged account activity
 Threat intelligence matches
+🎯 Purpose
+Rapid anomaly detection
+Faster prioritisation
+Clear investigation context
+🧪 Simulated Attack Flow
+🚨 Attacker performs brute force attempts
+🔓 Gains access to a valid account
+🌍 Logs in from a new IP
+👑 Accesses privileged functionality
+🔄 Moves laterally across systems
+🧠 Analyst Insights
 
-Purpose:
+Most attacks do not appear as obviously malicious.
 
-Enable rapid anomaly detection
-Support prioritisation of incidents
-Provide context for investigations
-Simulated Attack Flow
-Attacker performs brute force attempts
-Gains access to a valid account
-Logs in from a new IP address
-Accesses privileged functionality
-Moves laterally across systems
-Analyst Insights
-
-Most malicious activity does not appear as obviously malicious.
-
-Instead, attacks present as subtle deviations in behaviour:
+Instead, they show up as small behavioural anomalies:
 
 A login at an unusual time
 A spike in failed authentication attempts
-Access patterns that differ from normal user behaviour
+Access patterns that differ from normal behaviour
 
-Effective detection relies on identifying patterns and context, not just known indicators.
+✨ Strong detection comes from context + pattern recognition, not just indicators.
 
-Key Takeaways
-Behaviour-based detection is critical in modern SOC environments
-Correlation across multiple data sources improves detection accuracy
-Threat intelligence is most effective when combined with internal telemetry
-Detection is only the first step — triage and investigation determine impact
-Repository Structure
-
-security-ops-triage-dashboard/
-├── README.md
-├── queries/
-├── dashboards/
-├── sample-data/
-└── analyst-notes/
-
-Disclaimer
+🎯 Key Takeaways
+Behaviour-based detection is essential
+Correlation improves accuracy
+Threat intelligence is strongest when combined with internal data
+Detection is only step one — triage defines impact
+📁 Repository Structure
+security-ops-triage-dashboard/  
+├── README.md  
+├── queries/  
+├── dashboards/  
+├── sample-data/  
+└── analyst-notes/  
+⚠️ Disclaimer
 
 This project uses simulated data and scenarios for educational purposes only.
