@@ -1,0 +1,8 @@
+let TI_IPs = ThreatIntelligenceIndicator
+| where Active == true
+| where isnotempty(NetworkIP)
+| distinct NetworkIP;
+
+SigninLogs
+| where IPAddress in (TI_IPs)
+| project TimeGenerated, UserPrincipalName, IPAddress, Location
