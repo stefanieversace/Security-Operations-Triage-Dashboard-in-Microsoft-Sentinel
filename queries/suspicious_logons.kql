@@ -1,0 +1,5 @@
+SigninLogs
+| where ResultType == 0
+| summarize LoginCount = count() by UserPrincipalName, IPAddress, bin(TimeGenerated, 1h)
+| where LoginCount > 5
+| order by LoginCount desc
