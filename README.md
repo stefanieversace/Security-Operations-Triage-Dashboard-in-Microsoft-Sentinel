@@ -184,11 +184,14 @@ Access patterns that differ from normal user behaviour
 
 Effective detection relies on identifying patterns and context, not just known indicators.
 
+
 Key Takeaways
+
 Behaviour-based detection is critical in modern SOC environments
 Correlation across multiple data sources improves detection accuracy
 Threat intelligence is most effective when combined with internal telemetry
 Detection is only the first step — triage and investigation determine impact
+
 Repository Structure
 security-ops-triage-dashboard/
 │
@@ -197,6 +200,7 @@ security-ops-triage-dashboard/
 ├── dashboards/
 ├── sample-data/
 └── analyst-notes/
+
 Disclaimer
 
 This project uses simulated data and scenarios for educational purposes only.
