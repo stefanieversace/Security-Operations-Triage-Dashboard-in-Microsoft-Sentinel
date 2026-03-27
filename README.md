@@ -170,7 +170,8 @@ Gains access to a valid account
 Logs in from a new IP address
 Accesses privileged functionality
 Moves laterally across systems
-Analyst Insights
+
+## Analyst Insights
 
 This project highlights a key reality in modern cybersecurity:
 
@@ -185,14 +186,14 @@ Access patterns that differ from normal user behaviour
 Effective detection relies on identifying patterns and context, not just known indicators.
 
 
-Key Takeaways
+## Key Takeaways
 
 Behaviour-based detection is critical in modern SOC environments
 Correlation across multiple data sources improves detection accuracy
 Threat intelligence is most effective when combined with internal telemetry
 Detection is only the first step — triage and investigation determine impact
 
-Repository Structure
+## Repository Structure
 security-ops-triage-dashboard/
 │
 ├── README.md
@@ -201,7 +202,7 @@ security-ops-triage-dashboard/
 ├── sample-data/
 └── analyst-notes/
 
-Disclaimer
+## Disclaimer
 
 This project uses simulated data and scenarios for educational purposes only.
 
