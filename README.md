@@ -83,6 +83,22 @@ Effective detection relies on understanding patterns, not just indicators.
 
 ---
 
+## MITRE ATT&CK Mapping
+
+This project maps core detection logic to the MITRE ATT&CK framework so the investigation workflow is easier to understand in an operational context. Microsoft Sentinel supports applying MITRE ATT&CK tactics and techniques to analytics rules, and those mappings feed into Sentinel’s MITRE coverage view. :contentReference[oaicite:0]{index=0}
+
+| Detection | Relevant ATT&CK Tactic | Relevant ATT&CK Technique | Why it fits |
+|---|---|---|---|
+| Brute Force Detection | Credential Access | T1110 Brute Force | Repeated failed logons may indicate password guessing or credential stuffing attempts. |
+| Suspicious Successful Logons | Initial Access, Persistence, Defence Evasion | T1078 Valid Accounts | A successful sign-in using a legitimate account after abnormal activity can indicate account compromise. |
+| Privilege Escalation Activity | Privilege Escalation | T1078 Valid Accounts, T1068 Exploitation for Privilege Escalation | Special privilege assignment or abnormal privileged access may indicate an attacker elevating access. |
+| Threat Intelligence IP Match | Command and Control, Initial Access | T1071 Application Layer Protocol or technique depending on matched indicator context | Matching internal activity to known malicious indicators helps identify potentially hostile infrastructure. |
+| Lateral Movement Activity | Lateral Movement | T1021 Remote Services | Repeated network logons across hosts can indicate movement between systems after initial compromise. |
+
+### ATT&CK Mapping Notes
+
+These mappings are intended to show analyst reasoning, not to claim perfect one-to-one attribution. In practice, the final MITRE technique chosen in Microsoft Sentinel should reflect the exact behaviour your rule is designed to detect and the context of the logs used. Sentinel lets you tag analytics rules with MITRE tactics and techniques directly during rule creation. :contentReference[oaicite:1]{index=1}
+
 ## Key Takeaways
 
 - Behaviour-based detection is essential in modern SOC environments
