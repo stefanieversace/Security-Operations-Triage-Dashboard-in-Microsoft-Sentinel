@@ -82,7 +82,7 @@ SecurityEvent
 | where FailedAttempts > 10
 | order by FailedAttempts desc
 
-SOC Triage Workflow
+**### SOC Triage Workflow**
 Alerts are generated from analytics rules
 Alerts are prioritised based on severity and context
 Events are correlated across multiple data sources
@@ -104,7 +104,7 @@ Dashboard Design
 
 The triage dashboard provides a centralised operational view of security activity.
 
-Components
+**## Components**
 Failed login trends
 Top attacking IP addresses
 Suspicious successful logins
@@ -124,7 +124,7 @@ Instead, attacks present as subtle deviations in behaviour, such as unusual logi
 
 Effective detection relies on identifying patterns and context rather than relying solely on known indicators.
 
-Key Takeaways
+**## Key Takeaways**
 Behaviour-based detection is critical in modern SOC environments
 Correlation across multiple data sources improves detection accuracy
 Threat intelligence is most effective when combined with internal telemetry
@@ -136,6 +136,7 @@ security-ops-triage-dashboard/
 ├── dashboards/
 ├── sample-data/
 └── analyst-notes/
-Disclaimer
+
+**## Disclaimer**
 
 This project uses simulated data and scenarios for educational purposes only.
