@@ -1,0 +1,1 @@
+# Security-Operations-Triage-Dashboard-in-Microsoft-Sentinel
