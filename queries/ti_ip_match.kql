@@ -1,8 +1,16 @@
 let TI_IPs = ThreatIntelligenceIndicator
 | where Active == true
 | where isnotempty(NetworkIP)
-| distinct NetworkIP;
+| project TI_IP = NetworkIP, ThreatType, Description, ConfidenceScore;
 
 SigninLogs
 | where IPAddress in (TI_IPs)
-| project TimeGenerated, UserPrincipalName, IPAddress, Location
+| summarize LoginCount = count(), Users = make_set(UserPrincipalName)
+    by IPAddress, ThreatType, Description, ConfidenceScore, bin(TimeGenerated, 1h)
+| extend Severity = case(
+    ConfidenceScore >= 80 or LoginCount > 10, "High",
+    ConfidenceScore >= 50 or LoginCount > 5, "Medium",
+    "Low"
+)
+| project TimeGenerated, IPAddress, LoginCount, Users, ThreatType, ConfidenceScore, Severity
+| order by Severity desc, LoginCount desc
