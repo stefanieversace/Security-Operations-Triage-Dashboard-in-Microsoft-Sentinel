@@ -1,4 +1,12 @@
 SecurityEvent
 | where EventID == 4672
-| project TimeGenerated, Account, Computer, Activity
-| order by TimeGenerated desc
+| summarize PrivilegedLogons = count(), UniqueAccounts = dcount(Account) 
+    by Computer, IpAddress, bin(TimeGenerated, 10m)
+| where PrivilegedLogons > 5
+| extend Severity = case(
+    PrivilegedLogons > 20, "High",
+    PrivilegedLogons > 10, "Medium",
+    "Low"
+)
+| project TimeGenerated, Computer, IpAddress, PrivilegedLogons, UniqueAccounts, Severity
+| order by PrivilegedLogons desc
