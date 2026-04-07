@@ -1,6 +1,13 @@
 SecurityEvent
 | where EventID == 4624
 | where LogonType == 3
-| summarize ConnectionCount = count() by Account, Computer, IpAddress
-| where ConnectionCount > 15
+| summarize ConnectionCount = count(), UniqueAccounts = dcount(Account) 
+    by IpAddress, bin(TimeGenerated, 10m)
+| where ConnectionCount > 15 or UniqueAccounts > 5
+| extend Severity = case(
+    ConnectionCount > 50 or UniqueAccounts > 10, "High",
+    ConnectionCount > 25 or UniqueAccounts > 5, "Medium",
+    "Low"
+)
+| project TimeGenerated, IpAddress, ConnectionCount, UniqueAccounts, Severity
 | order by ConnectionCount desc
